@@ -1,0 +1,40 @@
+.banner-container {
+    position: relative;
+    top: 92px; /* Set this to your navbar's height (e.g., 92px) */
+    left: 0;
+    width: 80vw; /* Change from 100vw to 80vw or your preferred width */
+    left: 280px; 
+    height: 200px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    background: #350dba; /* fallback background */
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.banner-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
