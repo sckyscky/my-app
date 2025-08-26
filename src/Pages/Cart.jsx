@@ -31,12 +31,23 @@ const CartDebug = ({ cartItems, products = [] }) => {
 const Cart = () => {
     const context = useContext(shopContext);
     const [cartProducts, setCartProducts] = useState([]);
+    const [showCheckoutMessage, setShowCheckoutMessage] = useState(false);
     const { 
         cartItems = {}, 
         data: products = [], 
         getTotalCartAmount = () => '0.00',
-        removeFromCart = () => {}
+        removeFromCart = () => {},
+        clearCart = () => {}
     } = context || {};
+
+    const handleCheckout = () => {
+        // Clear the cart
+        clearCart();
+        // Show the success message
+        setShowCheckoutMessage(true);
+        // Hide the message after 3 seconds
+        setTimeout(() => setShowCheckoutMessage(false), 3000);
+    };
     
     console.log('Cart Context:', context); // Debug log
     console.log('Cart Items:', cartItems); // Debug log
@@ -152,7 +163,14 @@ const Cart = () => {
                             <span>Total:</span>
                             <span>₱{cartTotal}</span>
                         </div>
-                        <button className="checkout-btn">PROCEED TO CHECKOUT</button>
+                        <>
+                        <button className="checkout-btn" onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
+                        {showCheckoutMessage && (
+                            <div className="checkout-message">
+                                Your items have been checked out successfully!
+                            </div>
+                        )}
+                    </>
                     </div>
                 )}
             </div>

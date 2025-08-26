@@ -97,6 +97,11 @@ const ShopContextProvider = (props) => {
         return totalAmount.toFixed(2);
     }
 
+    const clearCart = () => {
+        setCartItems({});
+        showToast('Your order has been placed!');
+    };
+
     const getCartItemCount = () => {
         let totalCount = 0;
         for (const itemId in cartItems) {
@@ -112,6 +117,7 @@ const ShopContextProvider = (props) => {
         removeFromCart, 
         getTotalCartAmount,
         getCartItemCount,
+        clearCart,
         toast,
         // Debug info
         _debug: {

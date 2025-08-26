@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { shopContext } from './Context/ShopContext';
 import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary';
 import Navbar from './Components/Navbar/Navbar'; 
 import Footer from './Components/Footer/Footer';
@@ -69,11 +70,44 @@ const AnimatedRoutes = () => {
   );
 };
 
+// Toast notification component
+const ToastNotification = () => {
+  const context = useContext(shopContext);
+  const { toast } = context || { toast: { show: false, message: '' } };
+
+  if (!toast.show) return null;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      backgroundColor: '#4CAF50',
+      color: 'white',
+      padding: '16px 24px',
+      borderRadius: '4px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+      zIndex: 1000,
+      animation: 'slideIn 0.3s ease-out',
+      maxWidth: '300px',
+      textAlign: 'center'
+    }}>
+      {toast.message}
+      <style>{
+        `@keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }`
+      }</style>
+    </div>
+  );
+};
+
 // Error logging service
 const logError = (error, errorInfo) => {
-  // In a real app, send this to an error tracking service
-  console.error('Application Error:', error, errorInfo);
-};
+  console.error('Error caught by error boundary:', error, errorInfo);
+  // Here you would typically log the error to an error tracking service
+};  
 
 function App() {
   const [hasError, setHasError] = useState(false);
@@ -114,15 +148,16 @@ function App() {
   }
 
   return (
-    <div className='app'>
-      <BrowserRouter>
-        <ShopContextProvider>
+    <BrowserRouter>
+      <ShopContextProvider>
+        <div className="app">
           {!hasError && <Navbar />}
           <AnimatedRoutes />
           {!hasError && <Footer />}
-        </ShopContextProvider>
-      </BrowserRouter>
-    </div>
+          <ToastNotification />
+        </div>
+      </ShopContextProvider>
+    </BrowserRouter>
   );
 }
 
