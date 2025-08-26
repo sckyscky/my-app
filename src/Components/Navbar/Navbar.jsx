@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../Assets/logo.png';
 import cart from '../Assets/cart.png';
 import account from '../Assets/account.png';
+import { shopContext } from '../../Context/ShopContext';
 
 // Navbar component
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState('');
+  const location = useLocation();
+  const isCartPage = location.pathname === '/cart';
+  const isAccountPage = location.pathname === '/account';
+  const { getCartItemCount } = useContext(shopContext);
+  
+  // Calculate cart count
+  const cartCount = getCartItemCount();
 
   return (
     <div className="navbar">
@@ -18,23 +25,15 @@ const Navbar = () => {
 </div>
 
 <div className="navbar_links">
-  <div
-    className={`cart cart-container${activeSection === 'cart' ? ' cart-active' : ''}`}
-    onClick={() =>
-      setActiveSection(activeSection === 'cart' ? '' : 'cart')
-    }
-  ><Link to="/cart">
-    <img src={cart} alt="Cart" />
+  <div className={`cart cart-container${isCartPage ? ' cart-active' : ''}`}>
+    <Link to="/cart">
+      <img src={cart} alt="Cart" />
     </Link>
-    <div className="cart_count">0</div>
+    <div className="cart_count">{cartCount}</div>
   </div>
-  <div
-    className={`account cart-container${activeSection === 'account' ? ' cart-active' : ''}`}
-    onClick={() =>
-      setActiveSection(activeSection === 'account' ? '' : 'account')
-    }
-  ><Link to="/account">
-    <img src={account} alt="Account" />
+  <div className={`account cart-container${isAccountPage ? ' cart-active' : ''}`}>
+    <Link to="/account">
+      <img src={account} alt="Account" />
     </Link>
   </div>
 </div>

@@ -55,6 +55,7 @@ const ItemList = () => {
   {filteredItems.map((item, index) => (
     <Item
       key={item.id || index}
+      id={item.id}
       name={item.name}
       image={item.image}
       oldPrice={item.oldPrice}
